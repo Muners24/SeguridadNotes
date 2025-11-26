@@ -1,0 +1,49 @@
+# --------------------
+  # 2. Backend: NestJS API
+  # --------------------
+  api:
+    build:
+      context: ./noteshub-backend # Ruta a tu carpeta NestJS
+      dockerfile: dockerfile # Nombre de tu Dockerfile para NestJS
+      # Si usas una etapa 'development' en tu Dockerfile:
+      # target: development
+    container_name: nestjs_api
+    restart: always
+    # Carga las variables de entorno, incluyendo las de la DB
+    env_file:
+      - .env
+    volumes:
+      # Monta el código fuente para desarrollo (hot-reload)
+      - ./noteshub-backend:/usr/src/app
+      - /usr/src/app/node_modules # Previene que node_modules del host sobrescriba el del contenedor
+    ports:
+      # Mapea el puerto del host (ej: 3000) al puerto del contenedor (3000 por defecto en NestJS)
+      - "3000:3000"
+    depends_on:
+      # Asegura que la DB se inicie antes que el backend
+      - db
+    networks:
+      - app-network
+    # Comandos para iniciar la aplicación en modo desarrollo
+    command: npm run start:dev
+
+  # --------------------
+  # 3. Frontend: Vite/React
+  # --------------------
+  client:
+    build:
+      context: ./noteshub-frontend
+      dockerfile: dockerfile # O el nombre que uses para desarrollo
+    container_name: react_client
+    restart: always
+    volumes:
+      # Monta el código fuente para desarrollo (hot-reload)
+      - ./noteshub-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      # Mapea el puerto del host (ej: 5173 por defecto de Vite) al puerto del contenedor
+      - "5173:5173"
+    networks:
+      - app-network
+    # Comando para iniciar la aplicación Vite en modo desarrollo
+    command: npm run dev
