@@ -4,11 +4,12 @@ interface NoteCardProps {
   title: string;
   owner: string;
   editors?: string[];
+  texts?: string[];
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
-const NoteCard: React.FC<NoteCardProps> = ({ title, owner, editors = [], onEdit, onDelete }) => {
+const NoteCard: React.FC<NoteCardProps> = ({ title, owner, editors = [], texts = [], onEdit, onDelete }) => {
   return (
     <div className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 p-6 w-full max-w-sm border border-gray-100 hover:border-blue-200 flex flex-col">
       {/* Header con título */}
@@ -56,6 +57,22 @@ const NoteCard: React.FC<NoteCardProps> = ({ title, owner, editors = [], onEdit,
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Contenido de la nota */}
+      <div className="mb-4 flex-1">
+        <p className="text-xs text-gray-500 font-medium mb-2">Contenido</p>
+        {texts.length > 0 ? (
+          <div className="space-y-2 max-h-32 overflow-y-auto">
+            {texts.map((text, index) => (
+              <p key={index} className="text-sm text-gray-700 line-clamp-2 bg-gray-50 p-2 rounded">
+                {text}
+              </p>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 italic">Sin contenido</p>
+        )}
       </div>
 
       {/* Botones de acción */}

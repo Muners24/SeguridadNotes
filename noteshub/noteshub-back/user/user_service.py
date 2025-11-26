@@ -70,3 +70,40 @@ def LoginUser(user):
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al iniciar sesión")
+
+
+def UpdateUser(data: dict, user: UserAuth):
+    query = {"_id": ObjectId(user.id)}
+    
+    if "name" not in data:
+        return {"error": "No name provided to update"}
+    
+    result = user_collection.update_one(query, {"$set": data})
+
+    if result.matched_count == 0:
+        return {"error": "User not found or not authorized"}
+
+    return {"updated": True}
+
+
+
+def GetUserById(id: str) -> UserInfo: 
+    try:
+        user_found = user_collection.find_one({"_id": ObjectId(id)})
+        
+        if user_found:
+            print(user_found)
+            return UserInfo(
+                id=str(user_found["_id"]),
+                name=user_found["name"],
+                email=user_found["email"]
+            )
+            
+        else:
+            raise HTTPException(status_code=401, detail="No existe un usuario con esa id")
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        print(e)
+        raise HTTPException(status_code=500, detail=f"Error al buscar usuario")
