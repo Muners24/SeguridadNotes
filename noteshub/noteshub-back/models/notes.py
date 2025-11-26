@@ -11,6 +11,7 @@ class IdNote(BaseModel):
     
 class NoteUpdate(BaseModel):
     id: str
+    title: str
     texts: Optional[List[str]] = None    
     
 

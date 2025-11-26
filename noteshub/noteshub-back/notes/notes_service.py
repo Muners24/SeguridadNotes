@@ -67,6 +67,7 @@ def InsertNote(note: NoteIn, user:UserAuth):
 def UpdateNote(data: NoteUpdate, user: UserAuth):
     note_id = data.id
     query = {"_id": ObjectId(note_id)}
+    
     if user.rol != "admin":
         query["$or"] = [
             {"owner.id": user.id},
@@ -78,10 +79,20 @@ def UpdateNote(data: NoteUpdate, user: UserAuth):
     if not original:
         return {"error": "Not authorized or not found"}
     
-    if data.texts is None:
+    update_fields = {}
+
+    if data.title is not None:
+        update_fields["title"] = data.title
+    
+    if data.texts is not None:
+        update_fields["texts"] = data.texts
+    
+    if not update_fields:
         return {"error": "Nada por actualizar"}
     
-    notes_collection.update_one(query, {"$set": {"texts": data.texts, "uploadedAt": datetime.utcnow()}})
+    update_fields["uploadedAt"] = datetime.utcnow()
+
+    notes_collection.update_one(query, {"$set": update_fields})
 
     return {"updated": True}
 
