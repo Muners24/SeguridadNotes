@@ -4,13 +4,12 @@ import os
 
 load_dotenv()
 
-usuario = os.getenv("DATABASE_USER")
-contraseña = os.getenv("DATABASE_PASSWORD")
-host = os.getenv("DATABASE_HOST")
-puerto = os.getenv("DB_PORT")
-dbname = os.getenv("DATABASE_NAME")
+host = os.getenv("DATABASE_HOST", "localhost")
+puerto = os.getenv("DB_PORT", "27017")
+dbname = os.getenv("DATABASE_NAME", "Notes")
 
-uri = f"mongodb://{usuario}:{contraseña}@{host}:{puerto}/"
+# Conectar sin autenticación (desarrollo local)
+uri = f"mongodb://{host}:{puerto}/"
 client = MongoClient(uri)
 
 DB = client[dbname]

@@ -7,6 +7,7 @@ import Home from './views/Home';
 import Login from './views/Login';
 import Register from './views/Register';
 import Notes from './views/Notes';
+import EditNote from './views/EditNote';
 
 const rootElement = document.getElementById('root')!;
 createRoot(rootElement).render(
@@ -16,6 +17,7 @@ createRoot(rootElement).render(
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/notes' element={<Notes />} />
+      <Route path='/notes/:id/edit' element={<EditNote />} />
     </Routes>
   </BrowserRouter>
 );

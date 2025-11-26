@@ -30,8 +30,8 @@ def RegisterUser(user):
         
         access_token = createToken(
                 data={
-                    "sub": result.inserted_id,
-                    "rol" : u.rol,
+                    "sub": str(result.inserted_id),
+                    "rol" : u["rol"],
                 })
         
         return UserOut(
