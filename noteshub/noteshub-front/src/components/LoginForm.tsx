@@ -6,7 +6,7 @@ import useUserStore from '../store/userStore';
 
 const LoginForm = () => {
     const setUser = useUserStore((state) => state.setUser);
-  const setToken = useUserStore((state) => state.setToken);
+    const setToken = useUserStore((state) => state.setToken);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ const LoginForm = () => {
                     email: res.email
                 });
                 setToken(res.token);
-                
+                console.log(res.token);
                 navigate('/notes');
             }
         } catch (error) {

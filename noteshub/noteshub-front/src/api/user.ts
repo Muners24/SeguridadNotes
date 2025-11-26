@@ -55,3 +55,19 @@ export async function login(userData: { email: string; password: string }): Prom
 
   return handleResponse<UserOut>(response);
 }
+
+export async function updateUser(newName: string, token: string): Promise<UserOut> {
+  const url = `${API_BASE_URL}${USER_BASE_PATH}/update/`;
+  const userData = { name: newName };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(userData),
+  });
+
+  return handleResponse<UserOut>(response);
+}

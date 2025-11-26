@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface NoteCardProps {
   title: string;
@@ -12,7 +12,6 @@ const NoteCard: React.FC<NoteCardProps> = ({ title, owner, editors = [], onEdit,
   return (
     <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-sm">
       <h3 className="text-xl font-bold text-gray-800 mb-2">{title}</h3>
-
       <p className="text-sm text-gray-600 mb-1">
         <span className="font-semibold">Owner:</span> {owner}
       </p>
